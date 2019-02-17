@@ -7,6 +7,7 @@ import pandas as pd
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
+import numpy as np
 
 UPLOAD_FOLDER = '/home/ubuntu/INSIGHT2/application/flaskexample/static/uploads'
 ALLOWED_EXTENSIONS = set(['txt'])
@@ -65,13 +66,16 @@ def TC_output():
   a['cleaned'] = prc.preprocess(a['quote'])
   result = prc.model_1(a['cleaned'])
   nu_sentence = len(result)
-  riskies = result[result['point']==0]
-  riskies = riskies['quote'].to_frame()
-  riskies.set_index('quote', inplace=True)
-  riskies = riskies.to_html(float_format='%.0f').replace('<th>','<th style="color:#B22222">')
+  riskies = np.where(result['point']==0)
+  a['quote'].loc[riskies] = "<mark>" + a['quote'].loc[riskies] + "</mark>"
+  html = "<p>" + "".join(a['quote']) + "</p>"
+  html2 = html.replace('\n','<br>')
 
-
-  return render_template("output.html", nu_sentence = nu_sentence, txt = txt, riskies=riskies)
+  # riskies = result[result['point']==0]
+  # riskies = riskies['quote'].to_frame()
+  # riskies.set_index('quote', inplace=True)
+  # riskies = riskies.to_html(float_format='%.0f').replace('<th>','<th style="color:#B22222">')
+  return render_template("output.html", txt = html2)
 
 @app.route('/output_text')
 def output():
@@ -85,13 +89,12 @@ def output():
   a['cleaned'] = prc.preprocess(a['quote'])
   result = prc.model_1(a['cleaned'])
   nu_sentence = len(result)
-  riskies = result[result['point']==0]
-  riskies = riskies['quote'].to_frame()
-  riskies.set_index('quote', inplace=True)
-  riskies = riskies.to_html(float_format='%.0f').replace('<th>','<th style="color:#B22222">')
+  riskies = np.where(result['point']==0)
+  a['quote'].loc[riskies] = "<mark>" + a['quote'].loc[riskies] + "</mark>"
+  html = "<p>" + "".join(a['quote']) + "</p>"
+  html2 = html.replace('\n','<br>')
+  return render_template("output.html", txt = html2)
 
-
-  return render_template("output.html", nu_sentence = nu_sentence, txt = txt, riskies=riskies)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):

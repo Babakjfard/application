@@ -1,2 +1,2 @@
-# Flask App Template for Insight
-Run with ./run.py
+# application
+The INSIGHT project application

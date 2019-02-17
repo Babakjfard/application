@@ -28,6 +28,7 @@
      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
+   
  </head>
 
  <body>
@@ -55,22 +56,22 @@
 
 <br><br><br>
 <div class="container">
-  <h2>The Document</h2>
+  <h2>The Document with HIghlighted Risky Parts</h2>
   
   <form>
     <div class="form-group">
       <label for="comment"></label>
-      <textarea class="form-control" rows="30" id="comment">{{txt}}</textarea>
+      {{txt|safe}}
     </div>
   </form>
 </div>
 <p></p><p></p>
-<p class="lead">Below check the result of evaluation! </p>
+<!--<p class="lead">Below check the result of evaluation! </p>
 <div class="container">
   <div class="p-3 mb-2 bg-danger text-white"><h2>Risky Phrases</h2></div>
   <p></p>
 {{riskies|safe}}
-</div>
+</div>-->
 
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> 
